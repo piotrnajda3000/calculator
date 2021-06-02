@@ -61,18 +61,22 @@ function updateDisplay(){
 
     const digit = this.textContent; 
 
-    if (display.textContent == '0') {
+    if (digit == '0' && display.textContent == '0') {
+        display.textContent = '0';
+        return; 
+    }
 
-        if (digit == '.') {
-            display.textContent += digit; 
-        }
-        else {
-            display.textContent = digit; 
-        }
-
-    }    
-    else {
+    if (digit == '.' && !display.textContent.includes('.') && display.textContent != '') {
         display.textContent += digit; 
+        return;
+    }
+
+    if (digit != '0' && digit != '.' && display.textContent == '0') {
+            display.textContent = '';      
+    }
+
+    if (digit != '.') {
+    display.textContent += digit; 
     }
 
 }
@@ -81,7 +85,8 @@ let operator;
 
 function operate() {
 
-    if (pair.length < 2 && display.textContent != '') {
+    if (pair.length < 2 && display.textContent != '' && display.textContent != '0'
+            && !isNaN(display.textContent)) {
         pair.push(display.textContent); 
         helper.textContent += ` ${display.textContent} `; 
     }
@@ -98,7 +103,7 @@ function operate() {
             'x': multiply(a, b),
             ':': divide(a, b),
         }
-
+        
         helper.textContent += ` = `; 
 
         display.textContent = ''; 
@@ -112,14 +117,17 @@ function operate() {
 
     let operators = ['+', '-', 'x', ':']; 
     if (operators.includes(this.textContent)) {
+
+        if(operators.includes(helper.textContent.trimEnd().slice(-1))) {
+            helper.textContent = helper.textContent.slice(0, -2); 
+        }
+
         operator = this.textContent; 
 
-        if(helper.textContent.trimEnd().slice(-1) != operator) {
-            helper.textContent += ` ${operator} `; 
-        }
+        helper.textContent += ` ${operator} `;
+        
         display.textContent = ''; 
     }
-
 
 }
 
