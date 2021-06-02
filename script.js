@@ -42,76 +42,90 @@ const numberButtons = document.querySelectorAll('.key');
 numberButtons.forEach(button => button.addEventListener('click', updateDisplay));
 
 const operators = document.querySelectorAll('.operator');
-operators.forEach(button => button.addEventListener('click', prepareOperation)); 
+operators.forEach(button => button.addEventListener('click', operate)); 
 
-const equals = document.querySelector('#equals'); 
-equals.addEventListener('click', operate); 
-
+const helper = document.querySelector('#helper');
 
 // Initialize the display
-display.textContent = 0; 
-
-let a;
-let b; 
-let operator; 
-
+display.textContent = '0'; 
+let pair = []; 
 
 function clear(){ 
-    display.textContent = 0; 
-    a = undefined;
-    b = undefined;
+    display.textContent = '0'; 
+    helper.textContent = ''; 
+    pair = []; 
     operator = undefined; 
 }
 
+function updateDisplay(){  
 
-function updateDisplay(){    
     const digit = this.textContent; 
 
-    if (display.textContent == 0) {
-        display.textContent = digit;
-    }    
+    if (display.textContent == '0') {
 
+        if (digit == '.') {
+            display.textContent += digit; 
+        }
+        else {
+            display.textContent = digit; 
+        }
+
+    }    
     else {
         display.textContent += digit; 
     }
 
 }
 
-
-function prepareOperation(){
-
-    if (a != undefined) {
-        operate(); 
-        display.textContent = '0'; 
-        operator = this.textContent;
-        return; 
-    }
-
-    if (a == undefined) {
-        operator = this.textContent;
-        a = display.textContent; 
-        display.textContent = '0'; 
-    }
-
-}
+let operator; 
 
 function operate() {
 
-    b = display.textContent; 
-
-    a = parseFloat(a);
-    b = parseFloat(b); 
-
-    let operatorFunctions = {
-        '+': add(a, b),
-        '-': subtract(a, b),
-        'x': multiply(a, b),
-        ':': divide(a, b),
+    if (pair.length < 2 && display.textContent != '') {
+        pair.push(display.textContent); 
+        helper.textContent += ` ${display.textContent} `; 
     }
 
-    display.textContent = operatorFunctions[operator];
-    
-    a = display.textContent; 
-    b = undefined; 
+    if (pair.length == 2 && display.textContent != '') {
+
+        pair = pair.map((x) => parseFloat(x, 10)); 
+
+        let a = pair[0];
+        let b = pair[1]; 
+        let operatorFunctions = {
+            '+': add(a, b),
+            '-': subtract(a, b),
+            'x': multiply(a, b),
+            ':': divide(a, b),
+        }
+
+        helper.textContent += ` = `; 
+
+        display.textContent = ''; 
+
+        pair = [operatorFunctions[operator]];
+        helper.textContent += ` ${pair[0]} `; 
+
+        console.log(a, operator, b); 
+
+        }
+
+    let operators = ['+', '-', 'x', ':']; 
+    if (operators.includes(this.textContent)) {
+        operator = this.textContent; 
+
+        if(helper.textContent.trimEnd().slice(-1) != operator) {
+            helper.textContent += ` ${operator} `; 
+        }
+        display.textContent = ''; 
+    }
+
 
 }
+
+
+    
+
+   
+
+   

@@ -67,9 +67,19 @@ button {
     border-radius: 5px 5px 0px 0px;
     background-color: white;
     margin-bottom: 7px;
-    width: 100%;
+    min-width: 100%;
+    min-height: 18.4px;
     text-align: end;
 
+}
+
+#helper { 
+    border-radius: 0 0 5px 5px;
+    background-color: white;
+    margin-bottom: 5px;
+    min-width: 100%;
+    min-height: 18.4px;
+    text-align: end;
 }
 
 #clear {
