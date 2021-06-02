@@ -33,16 +33,29 @@ function divide(...numbers) {
     return numbers[0];
 }
 
+const display = document.querySelector('#display'); 
+
+const clearButton = document.querySelector('#clear')
+clearButton.addEventListener('click', clear);
+
+const numberButtons = document.querySelectorAll('.key'); 
+numberButtons.forEach(button => button.addEventListener('click', updateDisplay));
+
+const operators = document.querySelectorAll('.operator');
+operators.forEach(button => button.addEventListener('click', prepareOperation)); 
+
+const equals = document.querySelector('#equals'); 
+equals.addEventListener('click', operate); 
+
+
+// Initialize the display
+display.textContent = 0; 
+
 let a;
 let b; 
 let operator; 
 
-const display = document.querySelector('#display'); 
-// Initialize the display and number
-display.textContent = 0; 
 
-const clearButton = document.querySelector('#clear')
-clearButton.addEventListener('click', clear);
 function clear(){ 
     display.textContent = 0; 
     a = undefined;
@@ -50,8 +63,7 @@ function clear(){
     operator = undefined; 
 }
 
-const numberButtons = document.querySelectorAll('.key'); 
-numberButtons.forEach(button => button.addEventListener('click', updateDisplay));
+
 function updateDisplay(){    
     const digit = this.textContent; 
 
@@ -65,8 +77,7 @@ function updateDisplay(){
 
 }
 
-const operators = document.querySelectorAll('.operator');
-operators.forEach(button => button.addEventListener('click', prepareOperation)); 
+
 function prepareOperation(){
 
     if (a != undefined) {
@@ -84,9 +95,8 @@ function prepareOperation(){
 
 }
 
-const equals = document.querySelector('#equals'); 
-equals.addEventListener('click', operate); 
 function operate() {
+
     b = display.textContent; 
 
     a = parseFloat(a);
@@ -100,6 +110,7 @@ function operate() {
     }
 
     display.textContent = operatorFunctions[operator];
+    
     a = display.textContent; 
     b = undefined; 
 
