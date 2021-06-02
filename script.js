@@ -85,10 +85,24 @@ let operator;
 
 function operate() {
 
-    if (pair.length < 2 && display.textContent != '' && !isNaN(display.textContent)) {
-        pair.push(display.textContent); 
-        helper.textContent += ` ${display.textContent} `; 
+    if (operator == undefined) {
+        if (this.textContent != '=') {
+            operator = this.textContent;
+        }
     }
+
+    if (pair.length < 2 && display.textContent != '' && !isNaN(display.textContent) 
+            && display.textContent != '0') {
+
+            if (this.textContent == '=' && operator == undefined) {
+                return;
+            }
+
+            pair.push(display.textContent); 
+            helper.textContent += ` ${display.textContent} `; 
+
+    }
+
 
     if (pair.length == 2 && display.textContent != '') {
 
@@ -116,7 +130,7 @@ function operate() {
         pair = [operatorFunctions[operator]];
         helper.textContent += ` ${pair[0]} `; 
 
-        
+        operator = undefined; 
 
         }
 
@@ -130,8 +144,9 @@ function operate() {
         operator = this.textContent; 
 
         helper.textContent += ` ${operator} `;
-        
+
         display.textContent = ''; 
+
     }
 
 }
