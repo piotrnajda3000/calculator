@@ -85,9 +85,10 @@ let operator;
 
 function operate() {
 
-    if (operator == undefined) {
+    if (operator == undefined && pair[0] != undefined) {
         if (this.textContent != '=') {
             operator = this.textContent;
+            helper.textContent += ` ${operator} `
         }
     }
 
@@ -102,7 +103,6 @@ function operate() {
             helper.textContent += ` ${display.textContent} `; 
 
     }
-
 
     if (pair.length == 2 && display.textContent != '') {
 
