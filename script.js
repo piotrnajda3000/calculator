@@ -85,8 +85,7 @@ let operator;
 
 function operate() {
 
-    if (pair.length < 2 && display.textContent != '' && display.textContent != '0'
-            && !isNaN(display.textContent)) {
+    if (pair.length < 2 && display.textContent != '' && !isNaN(display.textContent)) {
         pair.push(display.textContent); 
         helper.textContent += ` ${display.textContent} `; 
     }
@@ -108,10 +107,16 @@ function operate() {
 
         display.textContent = ''; 
 
+        if (a == 0 && b == 0 && operator == ':') {
+            alert("Nah.");
+            clear(); 
+            return; 
+        }
+
         pair = [operatorFunctions[operator]];
         helper.textContent += ` ${pair[0]} `; 
 
-        console.log(a, operator, b); 
+        
 
         }
 
@@ -131,8 +136,6 @@ function operate() {
 
 }
 
-
-    
 
    
 
