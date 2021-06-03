@@ -22,7 +22,7 @@ const numberButtons = document.querySelectorAll('.key');
 numberButtons.forEach(button => button.addEventListener('click', updateDisplay));
 
 const operators = document.querySelectorAll('.operator');
-operators.forEach(button => button.addEventListener('click', operate)); 
+operators.forEach(button => button.addEventListener('click', evaluate)); 
 
 const clearButton = document.querySelector('#clear')
 clearButton.addEventListener('click', reset);
@@ -50,26 +50,31 @@ function updateDisplay(){
     }
 
     if (input == '.') {
+
         if (display.textContent.includes('.')) return; 
 
-        else if (display.textContent != '') { 
+        if (display.textContent != '') { 
             display.textContent += '.';
-            return;
         }
+
+        return;
+
     }
 
-    // Clear the display, 
+    // Clear the display in preparation for a digit  
     if (input != '0' && display.textContent == '0') {
         display.textContent = ''    
     }
 
-    // Then add a digit to it  
     let digit = input;
     display.textContent += digit; 
 
 }
 
-function operate() {
+function evaluate() {
+
+    // Edge case: Input: A + B, operator == undefined -> User decides to input a number before the next operator. 
+    // (i.e. 23 + instead of + 23) 
     if (operator == undefined && pair[0] != undefined) {
         if (this.textContent != '=') {
             operator = this.textContent;
@@ -77,6 +82,7 @@ function operate() {
         }
     }
 
+    // Add a number to the pair 
     if (pair.length < 2 && display.textContent != '' && !isNaN(display.textContent) 
             && display.textContent != '0') {
 
@@ -85,26 +91,23 @@ function operate() {
             }
 
             pair.push(display.textContent); 
-            helper.textContent += ` ${display.textContent} `; 
 
+            helper.textContent += ` ${display.textContent} `; 
     }
 
+    // Operate on the pair 
     if (pair.length == 2 && display.textContent != '') {
-
         pair = pair.map((x) => parseFloat(x, 10)); 
 
         let a = pair[0];
         let b = pair[1]; 
+
         let operatorFunctions = {
             '+': add(a, b),
             '-': subtract(a, b),
             'x': multiply(a, b),
             ':': divide(a, b),
         }
-        
-        helper.textContent += ` = `; 
-
-        display.textContent = ''; 
 
         if (a == 0 && b == 0 && operator == ':') {
             alert("Nah.");
@@ -112,16 +115,24 @@ function operate() {
             return; 
         }
 
-        pair = [roundResult(operatorFunctions[operator])];
-        helper.textContent += ` ${pair[0]} `; 
+        helper.textContent += ` = `; 
 
+        // The result becomes the new in next operation 
+        pair = [roundResult(operatorFunctions[operator])];
+
+        helper.textContent += ` ${pair[0]} `;
+        
+        display.textContent = ''; 
+
+        b = undefined; 
         operator = undefined; 
 
-        }
+    }
 
     let operators = ['+', '-', 'x', ':']; 
-    if (operators.includes(this.textContent)) {
+    if (operators.includes(this.textContent) && pair[0] != undefined) {
 
+        // If user wants to change the operator, remove the current one from helper. 
         if(operators.includes(helper.textContent.trimEnd().slice(-1))) {
             helper.textContent = helper.textContent.slice(0, -2); 
         }
