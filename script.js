@@ -1,8 +1,6 @@
 /* Main calculator operation */ 
 function add(...numbers) {
-    let total = 0; 
-    numbers.forEach(number => total += number);
-    return total; 
+    return numbers.reduce((element, total) => total += element, 0)
 }
 
 function subtract(...numbers) {
