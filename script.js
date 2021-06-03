@@ -25,14 +25,15 @@ const operators = document.querySelectorAll('.operator');
 operators.forEach(button => button.addEventListener('click', operate)); 
 
 const clearButton = document.querySelector('#clear')
-clearButton.addEventListener('click', clear);
+clearButton.addEventListener('click', reset);
 
 // Initialize the display
 display.textContent = '0'; 
 // Calculator evaluates two numbers at a time only, i.e. "12 + 7 - 5 * 3 = should yield 42."
 let pair = []; 
+let operator; 
 
-function clear(){ 
+function reset(){ 
     display.textContent = '0'; 
     helper.textContent = ''; 
     pair = []; 
@@ -41,32 +42,33 @@ function clear(){
 
 function updateDisplay(){  
 
-    const digit = this.textContent; 
+    const input = this.textContent; 
 
-    if (digit == '0' && display.textContent == '0') {
+    if (input == '0' && display.textContent == '0') {
         display.textContent = '0';
         return; 
     }
 
-    if (digit == '.' && !display.textContent.includes('.') && display.textContent != '') {
-        display.textContent += digit; 
-        return;
+    if (input != '0' && input != '.' && display.textContent == '0') {
+        display.textContent = ''    
+    }
+    if (input == '.') {
+
+        if (display.textContent.includes('.')) return; 
+
+        else if (display.textContent != '') { 
+            display.textContent += '.' 
+            return
+        }
     }
 
-    if (digit != '0' && digit != '.' && display.textContent == '0') {
-            display.textContent = '';      
-    }
-
-    if (digit != '.') {
+    // It's a digit if it's not a period
+    let digit = input;
     display.textContent += digit; 
-    }
 
 }
 
-let operator; 
-
 function operate() {
-
     if (operator == undefined && pair[0] != undefined) {
         if (this.textContent != '=') {
             operator = this.textContent;
@@ -105,7 +107,7 @@ function operate() {
 
         if (a == 0 && b == 0 && operator == ':') {
             alert("Nah.");
-            clear(); 
+            reset(); 
             return; 
         }
 
