@@ -4,11 +4,16 @@ function add(...numbers) {
 }
 
 function subtract(...numbers) {
+
+    return numbers.reduce((previous, current) => previous - current)
+
+    /*
     let total = 0; 
     for (let i = 0; i < numbers.length - 1; i++) {
         total += numbers[i] - numbers[i + 1]; 
     }
-    return total; 
+    return total;
+    */
 }
 
 function multiply(...numbers) {
