@@ -4,36 +4,59 @@ html {
 }
 
 body {
-    
     height: 100%;
-    background-color: lightsteelblue;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     font-family: sans-serif;
+
+    background-color: lightsteelblue;
 }
 
-/* Calculator */ 
 #calculator {
-    display: flex;
-    flex-direction: column;
-    background-color: steelblue;
-    padding: 10px;
-    padding-bottom: 0px;
-    border: 2px solid white;
-    border-bottom: 5px solid white;
-  
-    border-radius: 10px;
-
     width: 340px;
     height: 340px;
 
     box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 10px;
+    padding-bottom: 0px;
+
+    background-color: steelblue;
+
+    border: 2px solid white;
+    border-bottom: 5px solid white;
+    border-radius: 10px;
 }
 
+.screen {
+    overflow: hidden; 
+    background-color: white;
+    min-width: 100%;
+    min-height: 18.4px;
+    text-align: end;
+
+}
+
+#helper {
+    border-radius: 0 0 5px 5px;
+    margin-bottom: 5px;
+}
+
+#display { 
+    border-radius: 5px 5px 0px 0px;
+    margin-bottom: 7px;
+    text-align: end;
+}
 
 #keys {
-    background-color: rgb(184, 204, 231);
+    flex: 1;
+
     display: grid; 
     grid-template-columns: repeat(4, auto);
     grid-template-rows: repeat(4, auto);
@@ -41,11 +64,9 @@ body {
     place-items: center;
 
     border: 1px solid white;
-
     padding: 7px;
 
-    flex: 1;
-
+    background-color: rgb(184, 204, 231);
 }
 
 button {
@@ -55,33 +76,12 @@ button {
     background-color: white;
 }
 
-#keys:hover, #clear:hover, #keys button:hover {
+#keys:hover, #keys button:hover, #clear:hover {
     cursor: pointer;
 }
 
 #keys button:hover {
     background-color: hsl(214, 49%, 61%);
-}
-
-#display { 
-    border-radius: 5px 5px 0px 0px;
-    background-color: white;
-    margin-bottom: 7px;
-    min-width: 100%;
-    min-height: 18.4px;
-    text-align: end;
-    overflow: hidden;
-
-}
-
-#helper {
-    overflow: hidden; 
-    border-radius: 0 0 5px 5px;
-    background-color: white;
-    margin-bottom: 5px;
-    min-width: 100%;
-    min-height: 18.4px;
-    text-align: end;
 }
 
 #clear {

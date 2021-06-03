@@ -1,4 +1,3 @@
-/* Main calculator operation */ 
 function add(...numbers) {
     return numbers.reduce((element, total) => total += element, 0)
 }
@@ -10,25 +9,10 @@ function subtract(...numbers) {
 function multiply(...numbers) {
 
     return numbers.reduce((previous, current) => previous * current)
-
-    /* 
-    while (numbers.length != 1) {
-        let temp = numbers[0]; 
-        numbers.shift(); 
-        numbers[0] = temp * numbers[0]; 
-    } 
-    return numbers[0];
-    */ 
 }
 
 function divide(...numbers) {
-    // Multiply each number with the next number in an array.
-    while (numbers.length != 1) {
-        let temp = numbers[0]; 
-        numbers.shift(); 
-        numbers[0] = temp / numbers[0]; 
-    } 
-    return numbers[0];
+    return numbers.reduce((previous, current) => previous * current)
 }
 
 const display = document.querySelector('#display'); 
@@ -146,7 +130,6 @@ function operate() {
         display.textContent = ''; 
 
     }
-
 }
 
 
