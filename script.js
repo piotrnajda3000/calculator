@@ -49,20 +49,21 @@ function updateDisplay(){
         return; 
     }
 
-    if (input != '0' && input != '.' && display.textContent == '0') {
-        display.textContent = ''    
-    }
     if (input == '.') {
-
         if (display.textContent.includes('.')) return; 
 
         else if (display.textContent != '') { 
-            display.textContent += '.' 
-            return
+            display.textContent += '.';
+            return;
         }
     }
 
-    // It's a digit if it's not a period
+    // Clear the display, 
+    if (input != '0' && display.textContent == '0') {
+        display.textContent = ''    
+    }
+
+    // Then add a digit to it  
     let digit = input;
     display.textContent += digit; 
 
@@ -111,7 +112,7 @@ function operate() {
             return; 
         }
 
-        pair = [operatorFunctions[operator]];
+        pair = [roundResult(operatorFunctions[operator])];
         helper.textContent += ` ${pair[0]} `; 
 
         operator = undefined; 
@@ -134,7 +135,7 @@ function operate() {
     }
 }
 
-
-   
-
+function roundResult(result) {
+    return Math.round(result * 1000) / 1000; 
+}
    
