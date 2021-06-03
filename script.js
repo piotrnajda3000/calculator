@@ -15,10 +15,8 @@ function divide(...numbers) {
     return numbers.reduce((previous, current) => previous * current)
 }
 
+const helper = document.querySelector('#helper');
 const display = document.querySelector('#display'); 
-
-const clearButton = document.querySelector('#clear')
-clearButton.addEventListener('click', clear);
 
 const numberButtons = document.querySelectorAll('.key'); 
 numberButtons.forEach(button => button.addEventListener('click', updateDisplay));
@@ -26,10 +24,12 @@ numberButtons.forEach(button => button.addEventListener('click', updateDisplay))
 const operators = document.querySelectorAll('.operator');
 operators.forEach(button => button.addEventListener('click', operate)); 
 
-const helper = document.querySelector('#helper');
+const clearButton = document.querySelector('#clear')
+clearButton.addEventListener('click', clear);
 
 // Initialize the display
 display.textContent = '0'; 
+// Calculator evaluates two numbers at a time only, i.e. "12 + 7 - 5 * 3 = should yield 42."
 let pair = []; 
 
 function clear(){ 
