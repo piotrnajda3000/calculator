@@ -19,7 +19,7 @@ const display = document.querySelector("#display");
 
 const numberButtons = document.querySelectorAll(".key");
 numberButtons.forEach((button) =>
-  button.addEventListener("click", updateDisplay)
+  button.addEventListener("click", () => updateDisplay(button.textContent))
 );
 
 const operators = document.querySelectorAll(".operator");
@@ -30,7 +30,7 @@ operators.forEach((button) =>
 const clearButton = document.querySelector("#clear");
 clearButton.addEventListener("click", reset);
 
-display.textContent = "0";
+display.textContent = "";
 
 // Calculator evaluates only a pair of numbers at a time, i.e. "12 + 7 - 5 * 3 = should yield 42."
 // 12 + 7 = 19
@@ -47,10 +47,8 @@ function reset() {
   operator = undefined;
 }
 
-function updateDisplay() {
-  const input = this.textContent;
-
-  if (input == ".") {
+function updateDisplay(clickedNumber) {
+  if (clickedNumber == ".") {
     if (display.textContent.includes(".")) return;
 
     if (display.textContent == "") {
@@ -62,18 +60,26 @@ function updateDisplay() {
   }
 
   if (display.textContent == "0") {
-    if (input == "0") {
+    if (clickedNumber == "0") {
       return;
     } else {
-      // Clear the 0 to display the first digit
       display.textContent = "";
     }
   }
 
-  display.textContent += input;
+  display.textContent += clickedNumber;
 }
 
 function evaluate(inputOperator) {
+  // Handle inputting a negative first number
+  if (operator == undefined && pair[0] == undefined) {
+    if (inputOperator == "-" && !display.textContent.includes("-")) {
+      display.textContent += "-";
+    } else if (inputOperator == "+" && display.textContent == "-") {
+      display.textContent = "";
+    }
+  }
+
   if (operator == undefined && pair[0] != undefined) {
     // can't '=' a single number
     if (inputOperator != "=") {
