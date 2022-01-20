@@ -41,7 +41,7 @@ let pair = [];
 let operator;
 
 function reset() {
-  display.textContent = "0";
+  display.textContent = "";
   helper.textContent = "";
   pair = [];
   operator = undefined;
