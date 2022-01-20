@@ -1,90 +1,113 @@
 html {
-    /* For mobile browsers search bar*/
-    height: 100%;
+  /* For mobile browsers search bar*/
+  height: 100%;
 }
 
 body {
-    height: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  font-family: sans-serif;
 
-    font-family: sans-serif;
-
-    background-color: lightsteelblue;
+  background-color: hsl(335, 50%, 38%);
 }
 
 #calculator {
-    width: 340px;
-    height: 340px;
+  width: 335px;
+  height: 435px;
 
-    box-sizing: border-box;
+  box-sizing: border-box;
 
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    padding: 10px;
-    padding-bottom: 0px;
+  padding: 16px;
+  padding-bottom: 0px;
 
-    background-color: steelblue;
+  background-color: hsl(335, 50%, 50%);
 
-    border: 2px solid white;
-    border-bottom: 5px solid white;
-    border-radius: 10px;
+  border-bottom: 7px solid white;
+  border-radius: 0 0 10px 10px;
 }
 
 .screen {
-    overflow: hidden; 
-    background-color: white;
-    min-width: 100%;
-    min-height: 18.4px;
-    text-align: end;
-
+  overflow: hidden;
+  background-color: white;
+  min-width: 100%;
+  line-height: 18px;
+  min-height: 26px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 7px;
+  box-sizing: border-box;
 }
 
 #helper {
-    border-radius: 0 0 5px 5px;
-    margin-bottom: 5px;
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 7px;
+
+  color: black;
 }
 
-#display { 
-    border-radius: 5px 5px 0px 0px;
-    margin-bottom: 7px;
-    text-align: end;
+#display {
+  border-radius: 0 0 10px 10px;
+  margin-bottom: 16px;
+  text-align: end;
 }
 
 #keys {
-    flex: 1;
+  flex: 1;
 
-    display: grid; 
-    grid-template-columns: repeat(4, auto);
-    grid-template-rows: repeat(4, auto);
-    grid-gap: 7px;
-    place-items: center;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  grid-template-rows: repeat(4, auto);
+  grid-gap: 7px;
+  place-items: center;
 
-    border: 1px solid white;
-    padding: 7px;
+  padding: 7px;
 
-    background-color: rgb(184, 204, 231);
+  background-color: hsl(335, 50%, 63%);
+
+  border-radius: 10px 10px 0 0;
+}
+
+#keys button:nth-of-type(1) {
+  border-radius: 10px 0 0 0;
+}
+
+#keys button:nth-of-type(4) {
+  border-radius: 0 10px 0 0;
 }
 
 button {
-    border: 0;
-    width: 100%;
-    height: 100%;
-    background-color: white;
+  border: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
 }
 
-#keys:hover, #keys button:hover, #clear:hover {
-    cursor: pointer;
+#keys button {
+  border: 0;
+  width: 100%;
+  height: 100%;
+  background-color: hsl(335, 74%, 94%);
+}
+
+#keys:hover,
+#keys button:hover,
+#clear:hover {
+  cursor: pointer;
 }
 
 #keys button:hover {
-    background-color: hsl(214, 49%, 61%);
+  color: hsl(335, 50%, 38%);
+  background-color: white;
 }
 
 #clear {
-    align-self: center;
-    margin: 7px 0px;
+  align-self: center;
+  margin: 7px 0px;
 }

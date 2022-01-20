@@ -1,152 +1,149 @@
 function add(...numbers) {
-    return numbers.reduce((element, total) => total += element, 0)
+  return numbers.reduce((element, total) => (total += element), 0);
 }
 
 function subtract(...numbers) {
-    return numbers.reduce((previous, current) => previous - current)
+  return numbers.reduce((previous, current) => previous - current);
 }
 
 function multiply(...numbers) {
-
-    return numbers.reduce((previous, current) => previous * current)
+  return numbers.reduce((previous, current) => previous * current);
 }
 
 function divide(...numbers) {
-    return numbers.reduce((previous, current) => previous * current)
+  return numbers.reduce((previous, current) => previous * current);
 }
 
-const helper = document.querySelector('#helper');
-const display = document.querySelector('#display'); 
+const helper = document.querySelector("#helper");
+const display = document.querySelector("#display");
 
-const numberButtons = document.querySelectorAll('.key'); 
-numberButtons.forEach(button => button.addEventListener('click', updateDisplay));
+const numberButtons = document.querySelectorAll(".key");
+numberButtons.forEach((button) =>
+  button.addEventListener("click", updateDisplay)
+);
 
-const operators = document.querySelectorAll('.operator');
-operators.forEach(button => button.addEventListener('click', evaluate)); 
+const operators = document.querySelectorAll(".operator");
+operators.forEach((button) =>
+  button.addEventListener("click", () => evaluate(button.textContent))
+);
 
-const clearButton = document.querySelector('#clear')
-clearButton.addEventListener('click', reset);
+const clearButton = document.querySelector("#clear");
+clearButton.addEventListener("click", reset);
 
-// Initialize the display
-display.textContent = '0'; 
-// Calculator evaluates two numbers at a time only, i.e. "12 + 7 - 5 * 3 = should yield 42."
-let pair = []; 
-let operator; 
+display.textContent = "0";
 
-function reset(){ 
-    display.textContent = '0'; 
-    helper.textContent = ''; 
-    pair = []; 
-    operator = undefined; 
+// Calculator evaluates only a pair of numbers at a time, i.e. "12 + 7 - 5 * 3 = should yield 42."
+// 12 + 7 = 19
+// 19 - 5 = 14
+// 14 * 3 = 42
+
+let pair = [];
+let operator;
+
+function reset() {
+  display.textContent = "0";
+  helper.textContent = "";
+  pair = [];
+  operator = undefined;
 }
 
-function updateDisplay(){  
+function updateDisplay() {
+  const input = this.textContent;
 
-    const input = this.textContent; 
+  if (input == ".") {
+    if (display.textContent.includes(".")) return;
 
-    if (input == '0' && display.textContent == '0') {
-        display.textContent = '0';
-        return; 
+    if (display.textContent == "") {
+      display.textContent += "0.";
+    } else {
+      display.textContent += ".";
     }
+    return;
+  }
 
-    if (input == '.') {
-
-        if (display.textContent.includes('.')) return; 
-
-        if (display.textContent != '') { 
-            display.textContent += '.';
-        }
-
-        return;
-
+  if (display.textContent == "0") {
+    if (input == "0") {
+      return;
+    } else {
+      // Clear the 0 to display the first digit
+      display.textContent = "";
     }
+  }
 
-    // Clear the display in preparation for a digit  
-    if (input != '0' && display.textContent == '0') {
-        display.textContent = ''    
-    }
-
-    let digit = input;
-    display.textContent += digit; 
-
+  display.textContent += input;
 }
 
-function evaluate() {
+function evaluate(inputOperator) {
+  if (operator == undefined && pair[0] != undefined) {
+    // can't '=' a single number
+    if (inputOperator != "=") {
+      operator = inputOperator;
+      helper.textContent += ` ${operator} `;
+    }
+  }
 
-    // Edge case: Input: A + B, operator == undefined -> User decides to input a number before the next operator. 
-    // (i.e. 23 + instead of + 23) 
-    if (operator == undefined && pair[0] != undefined) {
-        if (this.textContent != '=') {
-            operator = this.textContent;
-            helper.textContent += ` ${operator} `
-        }
+  // Add a number to the pair
+  if (
+    pair.length < 2 &&
+    display.textContent != "" &&
+    display.textContent != "0" &&
+    !isNaN(display.textContent)
+  ) {
+    if (inputOperator == "=" && operator == undefined) {
+      return;
     }
 
-    // Add a number to the pair 
-    if (pair.length < 2 && display.textContent != '' && !isNaN(display.textContent) 
-            && display.textContent != '0') {
+    pair.push(display.textContent);
 
-            if (this.textContent == '=' && operator == undefined) {
-                return;
-            }
+    helper.textContent += ` ${display.textContent} `;
+  }
 
-            pair.push(display.textContent); 
+  // Operate on the pair
+  if (pair.length == 2 && display.textContent != "") {
+    pair = pair.map((x) => +x);
 
-            helper.textContent += ` ${display.textContent} `; 
+    let [a, b] = [...pair];
+
+    if (a == 0 && b == 0 && operator == ":") {
+      alert("Not on my watch!");
+      reset();
+      return;
     }
 
-    // Operate on the pair 
-    if (pair.length == 2 && display.textContent != '') {
-        pair = pair.map((x) => parseFloat(x, 10)); 
+    let evaluatePair = {
+      "+": add(a, b),
+      "-": subtract(a, b),
+      x: multiply(a, b),
+      ":": divide(a, b),
+    };
 
-        let a = pair[0];
-        let b = pair[1]; 
+    // The result becomes the first number in pair in next operation
+    pair = [roundResult(evaluatePair[operator])];
 
-        let operatorFunctions = {
-            '+': add(a, b),
-            '-': subtract(a, b),
-            'x': multiply(a, b),
-            ':': divide(a, b),
-        }
+    helper.textContent += ` = `;
+    helper.textContent += ` ${pair[0]} `;
 
-        if (a == 0 && b == 0 && operator == ':') {
-            alert("Nah.");
-            reset(); 
-            return; 
-        }
+    display.textContent = "";
+    b = undefined;
+    operator = undefined;
+  }
 
-        helper.textContent += ` = `; 
+  let operators = ["+", "-", "x", ":"];
 
-        // The result becomes the new in next operation 
-        pair = [roundResult(operatorFunctions[operator])];
-
-        helper.textContent += ` ${pair[0]} `;
-        
-        display.textContent = ''; 
-
-        b = undefined; 
-        operator = undefined; 
-
+  // User decides to change the operator, i.e. 3 + -> 3 -
+  if (operators.includes(inputOperator) && pair[0] != undefined) {
+    if (operators.includes(helper.textContent.trimEnd().slice(-1))) {
+      helper.textContent = helper.textContent.slice(0, -2);
     }
 
-    let operators = ['+', '-', 'x', ':']; 
-    if (operators.includes(this.textContent) && pair[0] != undefined) {
+    operator = inputOperator;
 
-        // If user wants to change the operator, remove the current one from helper. 
-        if(operators.includes(helper.textContent.trimEnd().slice(-1))) {
-            helper.textContent = helper.textContent.slice(0, -2); 
-        }
+    helper.textContent += ` ${operator} `;
 
-        operator = this.textContent; 
-
-        helper.textContent += ` ${operator} `;
-
-        display.textContent = ''; 
-
-    }
+    display.textContent = "";
+  }
 }
 
 function roundResult(result) {
-    return Math.round(result * 1000) / 1000; 
+  return Math.round(result * 1000) / 1000;
 }
-   
