@@ -30,6 +30,13 @@ operators.forEach((button) =>
 const clearButton = document.querySelector("#clear");
 clearButton.addEventListener("click", reset);
 
+const delButton = document.querySelector("#del");
+delButton.addEventListener("click", del);
+
+function del() {
+  display.textContent = display.textContent.slice(0, -1);
+}
+
 display.textContent = "";
 
 // Calculator evaluates only a pair of numbers at a time, i.e. "12 + 7 - 5 * 3 = should yield 42."
@@ -73,7 +80,7 @@ function updateDisplay(clickedNumber) {
 function evaluate(inputOperator) {
   // Handle inputting a negative first number
   if (operator == undefined && pair[0] == undefined) {
-    if (inputOperator == "-" && !display.textContent.includes("-")) {
+    if (inputOperator == "-" && display.textContent == "") {
       display.textContent += "-";
     } else if (inputOperator == "+" && display.textContent == "-") {
       display.textContent = "";
