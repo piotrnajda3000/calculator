@@ -126,7 +126,7 @@ function evaluate(inputOperator) {
     let evaluatePair = {
       "+": add(a, b),
       "-": subtract(a, b),
-      x: multiply(a, b),
+      "x": multiply(a, b),
       ":": divide(a, b),
     };
 
