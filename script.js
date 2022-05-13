@@ -11,7 +11,7 @@ function multiply(...numbers) {
 }
 
 function divide(...numbers) {
-  return numbers.reduce((previous, current) => previous * current);
+  return numbers.reduce((previous, current) => previous / current);
 }
 
 const helper = document.querySelector("#helper");
@@ -126,7 +126,7 @@ function evaluate(inputOperator) {
     let evaluatePair = {
       "+": add(a, b),
       "-": subtract(a, b),
-      "x": multiply(a, b),
+      x: multiply(a, b),
       ":": divide(a, b),
     };
 
